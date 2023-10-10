@@ -118,17 +118,18 @@ public class Rasterization {
         final double startAngleRadians = Math.toRadians(startAngleDegrees);
         final double endAngleRadians = Math.toRadians(endAngleDegrees);
 
-        for (int x = centerX - radius; x <= centerX + radius; x++) {
+        for (int x = centerX - radius; x <= centerX + radius; x++) { //Двойной цикл, который перебирает каждый пиксель в прямоугольной области, охватывающей окружность.
             for (int y = centerY - radius; y <= centerY + radius; y++) {
-                double angle = Math.toDegrees(Math.atan2(y - centerY, x - centerX));
+                double angle = Math.toDegrees(Math.atan2(y - centerY, x - centerX)); //Рассчет угла между центром окружности и текущей точкой (x, y) с помощью функции Math.atan2. Затем угол переводится в градусы.
                 if (angle < 0) {
                     angle += 360.0;  // Привести угол к положительным значениям
                 }
 
-                if (angle >= startAngleDegrees && angle <= endAngleDegrees) {
-                    double distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
-                    if (distance <= radius) {
+                if (angle >= startAngleDegrees && angle <= endAngleDegrees) { // Проверка, находится ли текущий угол внутри заданного сектора.
+                    double distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2)); //Вычисление расстояния от текущей точки (x, y) до центра окружности.
+                    if (distance <= radius) { //находится ли текущая точка внутри окружности
                         double fraction = (angle - startAngleDegrees) / (endAngleDegrees - startAngleDegrees); // Интерполяция цвета по углу
+                        //fraction представляет собой отношение угла между текущей точкой и начальным углом к общей разнице между начальным и конечным углом.
                         fraction = Math.min(1.0, Math.max(0.0, fraction)); // Ограничение в диапазоне [0, 1]
 
                         // Вычисление цвета пикселя с интерполяцией между innerColor и outerColor
@@ -155,11 +156,12 @@ public class Rasterization {
 
 
     private static Color interpolateColor(Color startColor, Color endColor, double ratio) {
-        double red = startColor.getRed() + ratio * (endColor.getRed() - startColor.getRed());
-        double green = startColor.getGreen() + ratio * (endColor.getGreen() - startColor.getGreen());
-        double blue = startColor.getBlue() + ratio * (endColor.getBlue() - startColor.getBlue());
+        //ratio - это значение между 0 и 1, которое указывает, как близко к endColor должен быть результирующий цвет.
+        double r = startColor.getRed() + ratio * (endColor.getRed() - startColor.getRed());
+        double g = startColor.getGreen() + ratio * (endColor.getGreen() - startColor.getGreen());
+        double b = startColor.getBlue() + ratio * (endColor.getBlue() - startColor.getBlue());
 
-        return new Color(red, green, blue,1.0);
+        return new Color(r, g, b,1.0);
     }
 
 
