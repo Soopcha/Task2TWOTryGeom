@@ -118,6 +118,7 @@ public class Rasterization {
         final double startAngleRadians = Math.toRadians(startAngleDegrees);
         final double endAngleRadians = Math.toRadians(endAngleDegrees);
 
+
         for (int x = centerX - radius; x <= centerX + radius; x++) { //Двойной цикл, который перебирает каждый пиксель в прямоугольной области, охватывающей окружность.
             for (int y = centerY - radius; y <= centerY + radius; y++) {
                 double angle = Math.toDegrees(Math.atan2(y - centerY, x - centerX)); //Рассчет угла между центром окружности и текущей точкой (x, y) с помощью функции Math.atan2. Затем угол переводится в градусы.
